@@ -73,7 +73,9 @@ def currency(x):
     return "${:.2f}".format(x)
 
 
-# main routine goes here
+# Functions go here
+
+# Main routine goes here
 
 # list
 yes_no_list = ["yes", "no"]
@@ -82,19 +84,21 @@ units_list = ["kg", "grams", "litres", "ml", "kilograms", "millilitres"]
 # lists to hold ingredient details
 ingredients_list = []
 amount_list = []
+unit_bought_list = []
 amount_used_list = []
+unit_used_list = []
 cost_list = []
-unit_list = []
-amount_needed_list = []
+
 
 # Dictionary used to create data frame ie: column_name:list
 recipe_cost_dict = {
-    "Ingredients": ingredients_list,
-    "Amount": amount_list,
-    "Amount using": amount_used_list,
-    "Cost": cost_list,
-    "Unit": unit_list,
-    "Amount Needed": amount_needed_list
+    "ingredients": ingredients_list,
+    "amount": amount_list,
+    "unit bought": unit_bought_list,
+    "amount using": amount_used_list,
+    "unit used": unit_used_list,
+    "cost": cost_list,
+
 }
 
 # set maximum number of ingredients below
@@ -117,23 +121,36 @@ while ingredients_listed < MAX_INGREDIENTS:
         print("You must write down at least ONE ingredient before quitting")
         continue
 
-    amount = num_check(f"How much did you get of this ingredient? ",
+    unit_bought = string_checker("What is the ingredients measurement unit? (Kg, g, ml, L)", units_list)
+
+    amount = num_check(f"How much did you get of this ingredient in? ",
                        "Please enter an amount more than 0\n", float)
+
     cost = num_check("How much does it cost (for the amount you bought)? $", "Please enter a number more than 0\n",
                      float)
-    using = num_check("How much are you using in the recipe?)" ,"Please enter an amount more than 0\n", float)
+
+    unit_used = string_checker("What is the ingredients measurement unit? (Kg, g, ml, L)", units_list)
+
+    using = num_check("How much are you using in the recipe?)", "Please enter an amount more than 0\n", float)
+
+    if unit_bought or unit_used == "kg" or "kilograms":
+        amount = amount * 1000
+        using = using * 1000
+    elif unit_bought or unit_used == "l" or "litres":
+        amount = amount * 1000
+        using = using * 1000
 
     # cost needed for AMOUNT of ingredients USED in recipe
-    needed1 = cost / amount
-    needed = needed1 * using
+    amount_needed = cost / amount
+    needed = amount_needed * using
 
     ingredients_listed += 1
 
     # add to list in order to print out
-    all_ingredients.append(ingredients)
-    all_amount.append(amount)
-    all_using.append(using)
-    all_cost.append(cost)
-    all_unit.append(unit)
-    all_texture.append(texture)
-    all_needed.append(needed)
+    ingredients_list.append(ingredients)
+    amount_list.append(amount)
+    unit_bought_list.append(unit_bought)
+    amount_used_list.append(using)
+    unit_used_list.append(unit_used)
+    cost_list.append(cost)
+
