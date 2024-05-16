@@ -73,7 +73,7 @@ unit_bought_list = []
 amount_used_list = []
 unit_used_list = []
 cost_list = []
-
+cost_to_make_list = []
 
 # Dictionary used to create data frame ie: column_name:list
 recipe_cost_dict = {
@@ -83,7 +83,7 @@ recipe_cost_dict = {
     "amount using": amount_used_list,
     "unit used": unit_used_list,
     "cost": cost_list,
-
+    "cost to make": cost_to_make_list
 }
 
 # set maximum number of ingredients below
@@ -93,11 +93,10 @@ ingredients_listed = 0
 # get recipe name
 recipe_name = not_blank("Recipe name: ", "The recipe name can't be blank.")
 
-# loop to get component, quantity and price
-# ingredient_name = ""
-get_ingredient_price = 0
+# Loop to get information for table
+
 while ingredients_listed < MAX_INGREDIENTS:
-    # get ingredient name
+    # Get ingredient names
     ingredients = not_blank("\nIngredient: ", "The component can't be blank.")
 
     if ingredients == 'xxx' and len(ingredients_list) > 0:
@@ -105,18 +104,18 @@ while ingredients_listed < MAX_INGREDIENTS:
     elif ingredients == 'xxx':
         print("You must write down at least ONE ingredient before quitting")
         continue
-
+    # Asks for
     unit_bought = string_checker("What is the ingredients measurement unit? (Kg, g, ml, L)", units_list)
 
-    amount = num_check(f"How much did you get of this ingredient in? ",
+    amount = num_check(f"How much did you get of this ingredient ({unit_bought})? ",
                        "Please enter an amount more than 0\n", float)
 
     cost = num_check("How much does it cost (for the amount you bought)? $", "Please enter a number more than 0\n",
                      float)
 
-    unit_used = string_checker("What is the ingredients measurement unit? (Kg, g, ml, L)", units_list)
+    unit_used = string_checker("What is the amount used measurement unit? (Kg, g, ml, L)", units_list)
 
-    using = num_check("How much are you using in the recipe?)", "Please enter an amount more than 0\n", float)
+    using = num_check(f"How much are you using in the recipe? ({unit_used})", "Please enter an amount more than 0\n", float)
 
     if unit_bought or unit_used == "kg" or "kilograms":
         amount = amount * 1000
@@ -125,16 +124,17 @@ while ingredients_listed < MAX_INGREDIENTS:
         amount = amount * 1000
         using = using * 1000
 
-    # cost needed for AMOUNT of ingredients USED in recipe
-    amount_needed = cost / amount
-    needed = amount_needed * using
+    # Cost of the amount of ingredients used
+    cost_to_make = cost / amount
+    cost_to_make = cost_to_make * using
 
     ingredients_listed += 1
 
-    # add to list in order to print out
+    # Adds to lists
     ingredients_list.append(ingredients)
     amount_list.append(amount)
     unit_bought_list.append(unit_bought)
     amount_used_list.append(using)
     unit_used_list.append(unit_used)
     cost_list.append(cost)
+    cost_to_make_list.append(cost_to_make)
