@@ -91,6 +91,7 @@ ingredients_listed = 0
 
 # get recipe name
 recipe_name = not_blank("Recipe name: ", "The recipe name can't be blank.")
+filename = recipe_name
 
 servings = num_check("How many servings does this recipe make? ", "Please enter a number more than 0\n", int)
 # Loop to get information for table
@@ -145,7 +146,32 @@ while ingredients_listed < MAX_INGREDIENTS:
     cost_list.append(cost)
     cost_to_make_list.append(cost_to_make)
 
+# *** Printing and Extra Calculation Area ***
 ingredient_frame = pandas.DataFrame(recipe_cost_dict)
 
-print(ingredient_frame)
+# Calculate Total and Per Server Costs
+total = ingredient_frame['cost to make'].sum()
+per_serve = total / servings
 
+# Create String for To Write and Printing
+ingredient_string = pandas.DataFrame.to_string(ingredient_frame)
+
+to_write = []
+
+# Print output
+for item in to_write:
+    print(item)
+
+# write output to file
+# Create file to hold data (add .txt extension)
+write_to = f"{filename}.txt"
+text_file = open(write_to, "w+")
+
+for item in to_write:
+    text_file.write(item)
+    text_file.write("\n")
+
+# Close file
+text_file.close()
+
+print()
