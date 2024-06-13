@@ -2,14 +2,12 @@
 import pandas
 
 
-# functions go here
+# Functions go here
 
 # instructions go here
 def show_instructions():
     print('')
 
-
-# *** functions go here ***
 
 # checks that input is either a float or an
 # integer that is more than zero. takes in custom error messages
@@ -29,6 +27,7 @@ def num_check(question, error, num_type):
             print(error)
 
 
+# checks if input is valid
 def string_checker(question, num_letters, valid_responses, error):
     while True:
         response = input(question).lower()
@@ -41,6 +40,7 @@ def string_checker(question, num_letters, valid_responses, error):
         print()
 
 
+# checks input is not blank
 def not_blank(question, error):
     valid = False
     while not valid:
@@ -57,7 +57,6 @@ def currency(x):
     return "${:.2f}".format(x)
 
 
-# Functions go here
 
 # Main routine goes here
 
@@ -127,16 +126,6 @@ while ingredients_listed < MAX_INGREDIENTS:
     elif unit_bought or unit_used == "kilograms":
         units = "kg"
 
-    if unit_bought == "kg" or "kilograms" or "litre" or "l":
-        amount = amount * 1000
-
-    elif unit_used == "kg" or "kilograms" or "litre" or "l":
-        using = using * 1000
-
-    # Cost of the amount of ingredients used
-    cost_to_make = cost / amount
-    cost_to_make = cost_to_make * using
-
     # Adds to lists
     ingredients_list.append(ingredients)
     amount_list.append(amount)
@@ -144,6 +133,17 @@ while ingredients_listed < MAX_INGREDIENTS:
     amount_used_list.append(using)
     unit_used_list.append(unit_used)
     cost_list.append(cost)
+
+    if unit_bought in ["kg", "litres"]:
+        amount *= 1000
+
+    elif unit_used in ["kg", "litres"]:
+        using *= 1000
+
+    # Cost of the amount of ingredients used
+    cost_to_make = cost / amount
+    cost_to_make *= using
+
     cost_to_make_list.append(cost_to_make)
 
 # *** Printing and Extra Calculation Area ***
@@ -156,7 +156,7 @@ per_serve = total / servings
 # Create String for To Write and Printing
 ingredient_string = pandas.DataFrame.to_string(ingredient_frame)
 
-to_write = []
+to_write = [ingredient_string]
 
 # Print output
 for item in to_write:
