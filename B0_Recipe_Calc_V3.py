@@ -74,13 +74,13 @@ cost_to_make_list = []
 
 # Dictionary used to create data frame ie: column_name:list
 recipe_cost_dict = {
-    "ingredients": ingredients_list,
-    "amount": amount_list,
-    "unit bought": unit_bought_list,
-    "amount using": amount_used_list,
-    "unit used": unit_used_list,
-    "cost": cost_list,
-    "cost to make": cost_to_make_list
+    "Ingredients": ingredients_list,
+    "Amount": amount_list,
+    "Unit Bought": unit_bought_list,
+    "Amount Using": amount_used_list,
+    "Unit Used": unit_used_list,
+    "Cost": cost_list,
+    "Cost To Make": cost_to_make_list
 }
 
 # set maximum number of ingredients below
@@ -149,11 +149,11 @@ while ingredients_listed < MAX_INGREDIENTS:
 ingredient_frame = pandas.DataFrame(recipe_cost_dict)
 
 # Calculate Total and Per Server Costs
-total = ingredient_frame['cost to make'].sum()
+total = ingredient_frame['Cost To Make'].sum()
 per_serve = total / servings
 
 # Create String for To Write and Printing
-ingredient_string = pandas.DataFrame.to_string(ingredient_frame)
+ingredient_string = ingredient_frame.to_string(index=False)
 
 to_write = [ingredient_string]
 

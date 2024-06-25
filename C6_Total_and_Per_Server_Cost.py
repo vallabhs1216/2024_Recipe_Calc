@@ -62,4 +62,3 @@ for item in to_write:
 
 # Close file
 text_file.close()
-
