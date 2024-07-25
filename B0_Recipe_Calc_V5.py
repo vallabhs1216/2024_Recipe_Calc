@@ -92,7 +92,7 @@ def amount_and_unit(question, valid_units, num_letters):
             try:
                 amount = float(amount)
             except ValueError:
-                print("Invalid input. Amount should be a valid number.")
+                print("Invalid input. Amount should be more than 0.")
                 continue
 
             # Check if unit is in the valid list (allowing both long and short forms)
@@ -117,8 +117,9 @@ def amount_and_unit(question, valid_units, num_letters):
 # List
 yes_no_list = ["yes", "no"]
 units_list = ["kg", "grams", "g", "l", "litres", "ml", "kilograms", "millilitres", ""]
-solid_list = ["kg", "g", "grams", "kilograms", ""]
-liquid_list = ["l", "litres", "ml", "millilitres", ""]
+solid_list = ["kg", "g", "grams", "kilograms"]
+liquid_list = ["l", "litres", "ml", "millilitres"]
+
 
 # Lists to hold ingredient details
 ingredients_list = []
@@ -176,7 +177,7 @@ while ingredients_listed < MAX_INGREDIENTS:
 
     elif unit_bought == "":
         unit_used = ""
-        using = amount_and_unit("How much did you buy? (kg, g, l, ml, leave blank if no unit)", units_list, 1)
+        using = amount_and_unit("How much did you buy use? ", "", 1)
 
     else:
         using, unit_used = amount_and_unit("How much did you use? (kg, g, l, ml, leave blank if no unit)", liquid_list,
@@ -203,10 +204,10 @@ while ingredients_listed < MAX_INGREDIENTS:
     cost_list.append(cost)
 
     # Turn kg and litres into g and ml for calculations
-    if unit_bought in ["kg", "litres"]:
+    if unit_bought in ["kg", "kilograms", "litres"]:
         amount *= 1000
 
-    elif unit_used in ["kg", "litres"]:
+    elif unit_used in ["kg", "kilograms", "litres"]:
         using *= 1000
 
     # Cost of the amount of ingredients used
@@ -239,6 +240,8 @@ per_serve = f"Cost Per Serve: ${per_serve:.2f}"
 filename = input("Please enter a file name: ")
 if filename == "":
     filename = recipe_name
+else:
+    filename = filename
 
 to_write = [Heading, Servings, ingredient_string, total, per_serve]
 
